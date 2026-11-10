@@ -11,51 +11,104 @@ $conn = new PDO(
     $password
 );
 
-$country = isset($_GET['country']) ? $_GET['country'] : '';
+$country = isset($_GET['country']) ? trim($_GET['country']) : '';
+$lookup = isset($_GET['lookup']) ? $_GET['lookup'] : '';
 
-$country = trim($country);
+if ($lookup === 'cities') {
 
-$stmt = $conn->prepare(
-    "SELECT * FROM countries WHERE name LIKE :country"
-);
+    $stmt = $conn->prepare(
+        "SELECT cities.name,
+                cities.district,
+                cities.population
+         FROM cities
+         JOIN countries
+             ON cities.country_code = countries.code
+         WHERE countries.name LIKE :country"
+    );
 
-$stmt->execute([
-    ':country' => '%' . $country . '%'
-]);
+    $stmt->execute([
+        ':country' => '%' . $country . '%'
+    ]);
 
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
 
-?>
-
-<table>
-    <thead>
-        <tr>
-            <th>Country Name</th>
-            <th>Continent</th>
-            <th>Independence Year</th>
-            <th>Head of State</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <?php foreach ($results as $row): ?>
+    <table>
+        <thead>
             <tr>
-                <td>
-                    <?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>
-                </td>
-
-                <td>
-                    <?= htmlspecialchars($row['continent'], ENT_QUOTES, 'UTF-8'); ?>
-                </td>
-
-                <td>
-                    <?= htmlspecialchars($row['independence_year'], ENT_QUOTES, 'UTF-8'); ?>
-                </td>
-
-                <td>
-                    <?= htmlspecialchars($row['head_of_state'], ENT_QUOTES, 'UTF-8'); ?>
-                </td>
+                <th>Name</th>
+                <th>District</th>
+                <th>Population</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            <?php foreach ($results as $row): ?>
+                <tr>
+                    <td>
+                        <?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($row['district'], ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($row['population'], ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php
+
+} else {
+
+    $stmt = $conn->prepare(
+        "SELECT * FROM countries WHERE name LIKE :country"
+    );
+
+    $stmt->execute([
+        ':country' => '%' . $country . '%'
+    ]);
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Country Name</th>
+                <th>Continent</th>
+                <th>Independence Year</th>
+                <th>Head of State</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php foreach ($results as $row): ?>
+                <tr>
+                    <td>
+                        <?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($row['continent'], ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($row['independence_year'], ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($row['head_of_state'], ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php
+}
+?>
