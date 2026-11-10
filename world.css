@@ -1,1 +1,111 @@
-/* Add your own styles */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f7fb;
+    color: #222;
+}
+
+header {
+    background-color: #3f4f68;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+main {
+    width: 90%;
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+#controls {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#controls label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#country {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 18px;
+    margin-right: 8px;
+    font-size: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #2d7dd2;
+    color: white;
+}
+
+button:hover {
+    background-color: #1f5fa5;
+}
+
+#lookup-cities {
+    background-color: #2a9d8f;
+}
+
+#lookup-cities:hover {
+    background-color: #207a70;
+}
+
+#result {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #e9eef5;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f8f9fb;
+}
+
+@media (max-width: 600px) {
+    button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+}
