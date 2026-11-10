@@ -11,7 +11,17 @@ $conn = new PDO(
     $password
 );
 
-$stmt = $conn->query("SELECT * FROM countries");
+$country = isset($_GET['country']) ? $_GET['country'] : '';
+
+$country = trim($country);
+
+$stmt = $conn->prepare(
+    "SELECT * FROM countries WHERE name LIKE :country"
+);
+
+$stmt->execute([
+    ':country' => '%' . $country . '%'
+]);
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -20,7 +30,9 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <ul>
 <?php foreach ($results as $row): ?>
     <li>
-        <?= $row['name'] . ' is ruled by ' . $row['head_of_state']; ?>
+        <?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') . 
+        ' is ruled by ' . 
+        htmlspecialchars($row['head_of_state'], ENT_QUOTES, 'UTF-8'); ?>
     </li>
 <?php endforeach; ?>
 </ul>
